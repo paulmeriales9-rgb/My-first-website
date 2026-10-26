@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Famous Japanese Shabu-Shabu | Hot Pot You Cook at Your Table</title>
+<meta name="description" content="The Famous Japanese Shabu-Shabu: premium beef, pork, chicken and seafood hot pot with miso, spicy and original broths. Reserve your table.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Shippori+Mincho:wght@500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= NAVIGATION ================= -->
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="#home" class="brand" aria-label="Home"><img src="images/logo.jpg" alt="The Famous Japanese Shabu-Shabu logo"><span class="brand-text"><b data-bind="shortName"></b><small>しゃぶしゃぶ</small></span></a>
+    <nav class="links">
+      <a href="#home">Home</a><a href="#menu">Menu</a><a href="#offers">Offers</a><a href="#about">About</a><a href="#reserve">Reserve</a>
+    </nav>
+    <div class="acts">
+      <button class="lnk" id="trackBtn">Track order</button>
+      <button class="cartb">Cart <span class="cc">0</span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<div class="view" id="home">
+
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <span class="eyebrow">✦ Authentic Japanese Hot Pot ✦</span>
+        <h1><span class="h1a">The Famous</span><span class="h1b">Japanese<br>Shabu-Shabu</span></h1>
+        <p class="slo" data-bind="slogan"></p>
+        <p class="tag" id="tagline"></p>
+        <div class="cta-row">
+          <a class="btn" href="#menu">Order now</a>
+          <a class="btn o" href="#reserve">Reserve a table</a>
+        </div>
+        <ul class="hero-note" aria-label="Highlights">
+          <li><b>Fresh</b> daily</li>
+          <li><b>3</b> handcrafted broths</li>
+          <li><b>Cook</b> it yourself</li>
+        </ul>
+        <a class="scroll-cue" href="#menu" aria-label="Scroll to menu"><span>Scroll</span><i></i></a>
+      </div>
+      <div class="hero-art">
+        <div class="ring"><img class="ph" src="images/soup.jpg" alt="Hot pot with sliced beef, vegetables and mushrooms"></div>
+        <div class="seal" aria-hidden="true">
+          <svg viewBox="0 0 200 200">
+            <defs><path id="circ" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
+            <text><textPath href="#circ">FRESH · TOGETHER · AT THE TABLE · COOK IT YOURSELF · </textPath></text>
+          </svg>
+          <span class="seal-kanji">鍋</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marq"><div id="ticker"></div></div>
+
+  <div class="wrap stat-strip" id="statGrid"></div>
+
+  <section class="sec feast">
+    <div class="wrap">
+      <p class="kicker">The Feast</p>
+      <h2>All you can eat, <em>together</em></h2>
+      <p class="lead">Premium beef, fresh pork, seafood and vegetables, with noodles and two broths in one pot.</p>
+      <figure class="poster rv"><img src="images/feast-poster.jpg" alt="All-you-can-eat shabu-shabu feast with premium beef, fresh pork, seafood, vegetables, noodles and a two-flavour hot pot" loading="lazy"></figure>
+      <div class="highlights">
+        <article class="hl rv"><span aria-hidden="true">🌿</span><h3>Fresh Ingredients</h3><p>Premium meat, seafood and vegetables, prepared fresh every day.</p></article>
+        <article class="hl rv" style="--d:90ms"><span aria-hidden="true">🍲</span><h3>Authentic Broths</h3><p>Original, Miso and Spicy, simmered fresh for every pot.</p></article>
+        <article class="hl rv" style="--d:180ms"><span aria-hidden="true">🥢</span><h3>All You Can Eat</h3><p>Unlimited servings, so everyone can try more.</p></article>
+        <article class="hl rv" style="--d:270ms"><span aria-hidden="true">🏮</span><h3>Cozy Atmosphere</h3><p>A warm place for family, friends and gatherings.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec ritual">
+    <div class="wrap">
+      <p class="kicker">The Ritual</p>
+      <h2>You cook it. <em>At your table.</em></h2>
+      <p class="lead">Shabu-shabu is a Japanese hot pot. We bring fresh ingredients and a pot of flavorful broth, and you and your friends cook everything together.</p>
+      <div class="ritual-grid" id="ritualGrid"></div>
+    </div>
+  </section>
+
+  <section class="sec howto-sec">
+    <div class="wrap">
+      <p class="kicker">Step by step</p>
+      <h2>How to <em>enjoy</em> shabu-shabu</h2>
+      <p class="lead">Four simple steps, from the first dip to a second helping.</p>
+      <figure class="howto"><img src="images/howto.jpg" alt="How to enjoy shabu-shabu: dip the meat and vegetables in the hot broth, dip in your favorite sauce, savor, and repeat" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="sec broths">
+    <div class="wrap broth-wrap">
+      <div class="broth-text">
+        <p class="kicker">Three Broths</p>
+        <h2>Choose your <em>soul</em> of the pot</h2>
+        <p class="lead">Every broth is simmered fresh every day. Pick the one that matches your mood.</p>
+        <div class="broth-list" id="brothGrid"></div>
+      </div>
+      <div class="broth-img"><img src="images/broth.jpg" alt="Hot pot broths with dipping sauces" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="sec gallery">
+    <div class="wrap">
+      <p class="kicker">Gallery</p>
+      <h2>What's on the <em>table</em></h2>
+      <div class="gal" id="galGrid"></div>
+      <p class="center-btn"><a class="btn" href="#menu">Order now</a></p>
+    </div>
+  </section>
+
+  <section class="sec quotes">
+    <div class="wrap">
+      <p class="kicker">Guest Words</p>
+      <h2>Loved around the <em>table</em></h2>
+      <div class="quote-grid" id="reviewGrid"></div>
+      <small class="fine">Guest reviews shown are examples.</small>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <p class="kicker light">Reserve</p>
+      <h2>Come hungry. <em>Bring friends.</em></h2>
+      <p>Book your table for dinner, a birthday or a family gathering.</p>
+      <a class="btn light" href="#reserve">Reserve a table</a>
+    </div>
+  </section>
+</div>
+
+<!-- ================= MENU ================= -->
+<section class="view page" id="menu">
+  <div class="page-head">
+    <span class="page-kanji" aria-hidden="true">食</span>
+    <p class="kicker">Order Online</p>
+    <h1>Our <em>Hot Pots</em></h1>
+    <p class="lead">Choose your pot and broth, add it to your order, and we will prepare it fresh. Dine-in, pickup or delivery.</p>
+  </div>
+  <div class="wrap">
+    <div class="menu-grid" id="menuGrid"></div>
+
+    <div class="sub-head">
+      <p class="kicker">Extras</p>
+      <h2>Add-ons &amp; <em>drinks</em></h2>
+    </div>
+    <div class="addon-grid" id="addonGrid"></div>
+
+    <div class="sub-head">
+      <p class="kicker">Served with every pot</p>
+      <h2>House <em>dipping sauces</em></h2>
+    </div>
+    <div class="dip-grid" id="dipGrid"></div>
+  </div>
+</section>
+
+<!-- ================= OFFERS ================= -->
+<section class="view page" id="offers">
+  <div class="page-head">
+    <span class="page-kanji" aria-hidden="true">福</span>
+    <p class="kicker">Deals</p>
+    <h1>Deals for the <em>whole table</em></h1>
+    <p class="lead">Share one big pot and save more. Ask our staff for the latest promos.</p>
+  </div>
+  <div class="wrap">
+    <div class="tickets" id="promoGrid"></div>
+    <p class="center-btn"><a class="btn" href="#reserve">Reserve for your group</a></p>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="view page" id="about">
+  <div class="page-head">
+    <span class="page-kanji" aria-hidden="true">和</span>
+    <p class="kicker">Our Story</p>
+    <h1>Cozy, modern, <em>Japanese</em></h1>
+  </div>
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="lead">Wooden tables, warm lighting and Japanese decorations, in a lively area near malls, schools and offices. We made a place where a meal becomes an event.</p>
+        <p class="who"><span>Friends</span><span>Families</span><span>Students</span><span>Office workers</span><span>Japanese food lovers</span></p>
+        <blockquote>“The food was delicious and the ingredients were very fresh. Cooking my own food with my friends was the best part. I will definitely come back!”<cite>Sample customer feedback</cite></blockquote>
+      </div>
+      <figure class="about-img"><img src="images/store.jpg" alt="Store interior with wooden tables and cherry blossom decor" loading="lazy"><figcaption>Our dining room</figcaption></figure>
+    </div>
+
+    <div class="values" id="valueGrid"></div>
+
+    <div class="sub-head">
+      <p class="kicker">Questions</p>
+      <h2>Frequently <em>asked</em></h2>
+    </div>
+    <div class="faq" id="faqList"></div>
+  </div>
+</section>
+
+<!-- ================= RESERVE ================= -->
+<section class="view page" id="reserve">
+  <div class="page-head">
+    <span class="page-kanji" aria-hidden="true">席</span>
+    <p class="kicker">Reserve</p>
+    <h1>Come hungry. <em>Bring friends.</em></h1>
+    <p class="lead">Reserve a table, and follow us for promos.</p>
+  </div>
+  <div class="wrap reserve-grid">
+    <div class="info-card">
+      <p><b>Opening hours</b><span data-bind="hours"></span></p>
+      <p><b>Address</b><span data-bind="address"></span></p>
+      <p><b>Mobile</b><span data-bind="phone"></span></p>
+      <p><b>Follow us</b><span class="soc"><a data-social="facebook" href="#">Facebook</a><a data-social="instagram" href="#">Instagram</a><a data-social="tiktok" href="#">TikTok</a></span></p>
+      <p class="handle" data-bind="handle"></p>
+    </div>
+    <form class="rsv" id="rsvForm" novalidate>
+      <h3>Reserve my table</h3>
+      <label>Your name<input id="rsvName" autocomplete="name"></label>
+      <div class="r2">
+        <label>Date<input id="rsvDate" type="date"></label>
+        <label>Guests<input id="rsvGuests" type="number" min="1" max="20" value="2"></label>
+      </div>
+      <label>Broth<select id="rsvSoup"></select></label>
+      <button type="submit">Confirm reservation</button>
+      <div id="rsvMsg" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <img src="images/logo.jpg" alt="" class="foot-logo">
+    <p>© The Famous Japanese Shabu-Shabu. All rights reserved.</p>
+    <p><a href="admin.html">Staff login</a></p>
+  </div>
+</footer>
+
+<!-- ================= CART & DIALOGS ================= -->
+<button class="fab" aria-label="Open cart">🛒<span class="cc">0</span></button>
+<div class="ov" id="ov"></div>
+<aside id="drawer" aria-label="Your order">
+  <h3>Your order <button id="closeCart" aria-label="Close">×</button></h3>
+  <div id="cartList"></div>
+  <div class="tot"><span>Subtotal</span><span id="cartTotal">₱0</span></div>
+  <button class="btn wide" id="checkoutBtn">Checkout</button>
+</aside>
+
+<dialog class="dlg" id="co"><form id="coForm" novalidate>
+  <h3>Checkout</h3>
+  <label>Your name<input id="cname" autocomplete="name"></label>
+  <label>Mobile number<input id="phone" type="tel" placeholder="09123456789"></label>
+  <div class="r2"><label>Order type<select id="orderType"></select></label><label>Payment<select id="payment"></select></label></div>
+  <label id="addrWrap" hidden>Delivery address<input id="addr"></label>
+  <label>Notes (optional)<textarea id="notes" rows="2"></textarea></label>
+  <div class="sum" id="sum"></div>
+  <p class="err" id="coErr"></p>
+  <button class="btn wide" type="submit">Place order</button>
+  <button class="btn dk wide" type="button" data-close>Cancel</button>
+</form></dialog>
+
+<dialog class="dlg" id="done">
+  <h3>Order received!</h3>
+  <p>Thank you! Your order number is:</p>
+  <div class="big" id="doneId"></div>
+  <p>Save it to track your order using “Track order” at the top.</p>
+  <button class="btn wide" data-close>Close</button>
+</dialog>
+
+<dialog class="dlg" id="tr">
+  <form id="trackForm"><h3>Track your order</h3>
+    <label>Order number<input id="trackId" placeholder="FS-1001"></label>
+    <button class="btn wide" type="submit">Check status</button>
+  </form>
+  <div id="trackOut"></div>
+  <button class="btn dk wide" data-close>Close</button>
+</dialog>
+
+<dialog class="dlg" id="lb" style="width:min(900px,96vw);padding:12px">
+  <img id="lbImg" alt="" style="width:100%;border-radius:6px">
+  <button class="btn dk wide" data-close>Close</button>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+<script src="script.js"></script>
+</body>
+</html>
