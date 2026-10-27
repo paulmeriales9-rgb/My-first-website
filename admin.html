@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Staff Admin | The Famous Shabu-Shabu</title>
+<style>
+  :root { --red:#b3261e; --ink:#2b2118; --paper:#faf6ef; --line:#e6dccd; --muted:#7a6c5d; --ok:#2e7d32; --warn:#b26a00; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--paper); color:var(--ink); font-size:15px; }
+  header { background:var(--ink); color:#fff; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  header h1 { font-size:18px; margin:0; font-weight:600; }
+  header a { color:#f3d9d6; font-size:13px; }
+  main { max-width:1100px; margin:0 auto; padding:20px; }
+  button { font:inherit; cursor:pointer; border:0; border-radius:8px; padding:8px 14px; background:var(--red); color:#fff; }
+  button.ghost { background:#fff; color:var(--ink); border:1px solid var(--line); }
+  button.small { padding:5px 10px; font-size:13px; }
+  input, select { font:inherit; padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:#fff; }
+  .login { max-width:340px; margin:80px auto; background:#fff; border:1px solid var(--line); border-radius:14px; padding:28px; }
+  .login h2 { margin:0 0 6px; }
+  .login p { color:var(--muted); margin:0 0 16px; font-size:14px; }
+  .login input { width:100%; margin-bottom:10px; }
+  .login button { width:100%; }
+  .err { color:var(--red); font-size:13px; min-height:18px; }
+  .hidden { display:none !important; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-bottom:18px; }
+  .stat { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; }
+  .stat b { display:block; font-size:22px; }
+  .stat span { color:var(--muted); font-size:13px; }
+  .tabs { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+  .tabs button { background:#fff; color:var(--ink); border:1px solid var(--line); }
+  .tabs button.on { background:var(--ink); color:#fff; border-color:var(--ink); }
+  .toolbar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:14px; }
+  .toolbar .sp { flex:1; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:12px; }
+  .card-top { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; align-items:flex-start; }
+  .oid { font-weight:700; font-size:16px; }
+  .when { color:var(--muted); font-size:13px; }
+  .pill { display:inline-block; padding:3px 9px; border-radius:99px; font-size:12px; background:#f0e8db; color:var(--ink); }
+  .pill.Pending { background:#fff1d6; color:var(--warn); }
+  .pill.Preparing { background:#e3eefc; color:#1f5fa8; }
+  .pill.Ready { background:#e4f4e5; color:var(--ok); }
+  .pill.Completed { background:#eee; color:#555; }
+  .pill.Cancelled { background:#fbe3e1; color:var(--red); }
+  ul.items { margin:10px 0; padding-left:18px; }
+  .info { font-size:14px; color:var(--muted); line-height:1.6; }
+  .info b { color:var(--ink); }
+  .row { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line); }
+  .total { font-size:17px; font-weight:700; }
+  table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); font-size:14px; vertical-align:top; }
+  th { background:#f3ece0; font-weight:600; }
+  .empty { text-align:center; color:var(--muted); padding:40px 10px; background:#fff; border:1px dashed var(--line); border-radius:12px; }
+  .note { font-size:13px; color:var(--muted); margin-top:18px; }
+  .ok-text { color:var(--ok); }
+  @media (max-width:600px) { th:nth-child(4), td:nth-child(4) { display:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Staff Admin · The Famous Shabu-Shabu</h1>
+  <div id="hdrActs" class="hidden">
+    <a href="index.html">← Back to website</a>
+    &nbsp;&nbsp;<button class="ghost small" id="logoutBtn">Log out</button>
+  </div>
+</header>
+
+<!-- LOGIN -->
+<section id="loginView" class="login">
+  <h2>Staff login</h2>
+  <p>Enter the staff password to manage orders and reservations.</p>
+  <input type="password" id="pw" placeholder="Password" autocomplete="current-password">
+  <button id="loginBtn">Log in</button>
+  <div class="err" id="loginErr"></div>
+</section>
+
+<!-- ADMIN -->
+<main id="adminView" class="hidden">
+  <div class="stats">
+    <div class="stat"><b id="stOrders">0</b><span>Orders (all)</span></div>
+    <div class="stat"><b id="stPending">0</b><span>Open orders</span></div>
+    <div class="stat"><b id="stSales">₱0</b><span>Sales (excl. cancelled)</span></div>
+    <div class="stat"><b id="stRes">0</b><span>Reservations</span></div>
+  </div>
+
+  <div class="tabs">
+    <button class="on" data-tab="orders">Orders</button>
+    <button data-tab="reservations">Reservations</button>
+  </div>
+
+  <!-- Orders tab -->
+  <section id="tab-orders">
+    <div class="toolbar">
+      <select id="filterStatus">
+        <option value="">All statuses</option>
+        <option>Pending</option><option>Preparing</option><option>Ready</option><option>Completed</option><option>Cancelled</option>
+      </select>
+      <input type="search" id="search" placeholder="Search name, phone or order no.">
+      <span class="sp"></span>
+      <button class="ghost small" id="exportBtn">Export CSV</button>
+      <button class="ghost small" id="refreshBtn">Refresh</button>
+    </div>
+    <div id="orderList"></div>
+  </section>
+
+  <!-- Reservations tab -->
+  <section id="tab-reservations" class="hidden">
+    <div class="toolbar">
+      <span class="sp"></span>
+      <button class="ghost small" id="refreshBtn2">Refresh</button>
+    </div>
+    <div id="resList"></div>
+  </section>
+
+  <p class="note">
+    Orders and reservations are saved in this browser's local storage, the same place the website saves them.
+    Orders placed on other phones or computers will not appear here until the site is connected to a server.
+  </p>
+</main>
+
+<script>
+// ---- settings (keep in sync with CONFIG in script.js) ----
+const ADMIN_PASSWORD = "admin123"; // CHANGE THIS. Client-side only, so it is not real security.
+const CURRENCY = "₱";
+const STATUSES = ["Pending", "Preparing", "Ready", "Completed", "Cancelled"];
+
+// ---- storage (same keys as script.js) ----
+const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } };
+const store = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const getOrders = () => load("fs_orders", []);
+const setOrders = a => store("fs_orders", a);
+const getRes = () => load("fs_res", []);
+const setRes = a => store("fs_res", a);
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const money = n => CURRENCY + Number(n || 0).toLocaleString();
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmt = t => new Date(t).toLocaleString("en-PH", { dateStyle: "medium", timeStyle: "short" });
+
+// ---- login ----
+function showAdmin(on) {
+  $("#loginView").classList.toggle("hidden", on);
+  $("#adminView").classList.toggle("hidden", !on);
+  $("#hdrActs").classList.toggle("hidden", !on);
+  if (on) renderAll();
+}
+$("#loginBtn").onclick = tryLogin;
+$("#pw").onkeydown = e => { if (e.key === "Enter") tryLogin(); };
+function tryLogin() {
+  if ($("#pw").value === ADMIN_PASSWORD) {
+    sessionStorage.setItem("fs_admin", "1");
+    $("#pw").value = ""; $("#loginErr").textContent = "";
+    showAdmin(true);
+  } else {
+    $("#loginErr").textContent = "Wrong password.";
+  }
+}
+$("#logoutBtn").onclick = () => { sessionStorage.removeItem("fs_admin"); showAdmin(false); };
+if (sessionStorage.getItem("fs_admin") === "1") showAdmin(true);
+
+// ---- tabs ----
+$$(".tabs button").forEach(b => b.onclick = () => {
+  $$(".tabs button").forEach(x => x.classList.toggle("on", x === b));
+  $("#tab-orders").classList.toggle("hidden", b.dataset.tab !== "orders");
+  $("#tab-reservations").classList.toggle("hidden", b.dataset.tab !== "reservations");
+});
+
+// ---- stats ----
+function renderStats() {
+  const orders = getOrders();
+  const open = orders.filter(o => o.status === "Pending" || o.status === "Preparing" || o.status === "Ready").length;
+  const sales = orders.filter(o => o.status !== "Cancelled").reduce((a, o) => a + Number(o.total || 0), 0);
+  $("#stOrders").textContent = orders.length;
+  $("#stPending").textContent = open;
+  $("#stSales").textContent = money(sales);
+  $("#stRes").textContent = getRes().length;
+}
+
+// ---- orders ----
+function renderOrders() {
+  const status = $("#filterStatus").value;
+  const q = $("#search").value.trim().toLowerCase();
+  const list = getOrders().filter(o => {
+    if (status && o.status !== status) return false;
+    if (!q) return true;
+    const c = o.customer || {};
+    return [o.id, c.name, c.phone].some(x => String(x || "").toLowerCase().includes(q));
+  });
+  if (!list.length) { $("#orderList").innerHTML = `<div class="empty">No orders match.</div>`; return; }
+
+  $("#orderList").innerHTML = list.map(o => {
+    const c = o.customer || {};
+    const items = (o.items || []).map(i =>
+      `<li>${i.qty}× ${esc(i.name)}${i.soup ? " (" + esc(i.soup) + ")" : ""} <span class="when">${money(i.price * i.qty)}</span></li>`).join("");
+    return `
+    <article class="card" data-id="${esc(o.id)}">
+      <div class="card-top">
+        <div>
+          <div class="oid">${esc(o.id)} <span class="pill ${esc(o.status)}">${esc(o.status)}</span></div>
+          <div class="when">${fmt(o.createdAt)}</div>
+        </div>
+        <div>
+          <select class="status" data-id="${esc(o.id)}">
+            ${STATUSES.map(s => `<option ${s === o.status ? "selected" : ""}>${s}</option>`).join("")}
+          </select>
+        </div>
+      </div>
+      <ul class="items">${items || "<li>No items</li>"}</ul>
+      <div class="info">
+        <b>Customer:</b> ${esc(c.name)} · ${esc(c.phone)}<br>
+        <b>Type:</b> ${esc(o.type)} · <b>Payment:</b> ${esc(o.payment)}
+        ${c.address ? `<br><b>Address:</b> ${esc(c.address)}` : ""}
+        ${o.notes ? `<br><b>Notes:</b> ${esc(o.notes)}` : ""}
+      </div>
+      <div class="row">
+        <span class="info">Subtotal ${money(o.subtotal)}${o.fee ? " · Delivery " + money(o.fee) : ""}</span>
+        <span class="total">Total ${money(o.total)}</span>
+      </div>
+    </article>`;
+  }).join("");
+}
+$("#orderList").addEventListener("change", e => {
+  if (!e.target.matches(".status")) return;
+  const orders = getOrders();
+  const o = orders.find(x => x.id === e.target.dataset.id);
+  if (!o) return;
+  o.status = e.target.value;
+  setOrders(orders);
+  renderStats(); renderOrders();
+});
+$("#filterStatus").onchange = renderOrders;
+$("#search").oninput = renderOrders;
+
+// ---- reservations ----
+function renderRes() {
+  const list = getRes();
+  if (!list.length) { $("#resList").innerHTML = `<div class="empty">No reservations yet.</div>`; return; }
+  $("#resList").innerHTML = `
+    <table>
+      <thead><tr><th>Name</th><th>Date</th><th>Guests</th><th>Broth</th><th>Requested</th><th></th></tr></thead>
+      <tbody>${list.map(r => `
+        <tr>
+          <td>${esc(r.name)}</td>
+          <td>${esc(r.date)}</td>
+          <td>${esc(r.guests)}</td>
+          <td>${esc(r.soup)}</td>
+          <td>${fmt(r.createdAt)}</td>
+          <td><button class="ghost small" data-del="${esc(r.id)}">Remove</button></td>
+        </tr>`).join("")}
+      </tbody>
+    </table>`;
+}
+$("#resList").addEventListener("click", e => {
+  const id = e.target.dataset.del;
+  if (!id) return;
+  if (!confirm("Remove this reservation?")) return;
+  setRes(getRes().filter(r => String(r.id) !== id));
+  renderStats(); renderRes();
+});
+
+// ---- export ----
+$("#exportBtn").onclick = () => {
+  const rows = [["Order", "Date", "Status", "Customer", "Phone", "Type", "Payment", "Items", "Total"]];
+  getOrders().forEach(o => rows.push([
+    o.id, fmt(o.createdAt), o.status, o.customer?.name, o.customer?.phone, o.type, o.payment,
+    (o.items || []).map(i => `${i.qty}x ${i.name}`).join("; "), o.total
+  ]));
+  const csv = rows.map(r => r.map(v => `"${String(v ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+  a.download = "orders.csv";
+  a.click();
+};
+
+// ---- refresh ----
+function renderAll() { renderStats(); renderOrders(); renderRes(); }
+$("#refreshBtn").onclick = $("#refreshBtn2").onclick = renderAll;
+</script>
+</body>
+</html>
